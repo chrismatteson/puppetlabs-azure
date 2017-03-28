@@ -16,6 +16,20 @@
         "description": "Subnet-1 Prefix"
       }
     },
+    "networkSecurityGroupName": {
+       "type": "string",
+       "defaultValue": "networkSecurityGroup1",
+       "metadata": {
+         "description": "NSG Name"
+       }
+     },
+    "virtualNetworkName": {
+       "type": "string",
+       "defaultValue": "virtualNetwork1",
+       "metadata": {
+         "description": "Virtual Network Name"
+       }
+     },
     "rulesArray": {
       "type": "array",
       "defaultValue": [
@@ -40,8 +54,6 @@
     }
   },
   "variables": {
-    "networkSecurityGroupName": "networkSecurityGroup1",
-    "virtualNetworkName": "virtualNetwork1",
     "subnetName": "subnet",
     "apiVersion": "2015-06-15"
   },
@@ -49,19 +61,19 @@
     {
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[variables('networkSecurityGroupName')]",
+      "name": "[parameters('networkSecurityGroupName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "securityRules": "[parameters('rulesArray'])"
+        "securityRules": "[parameters('rulesArray')]"
       }
     },
     {
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/virtualNetworks",
-      "name": "[variables('virtualNetworkName')]",
+      "name": "[parameters('virtualNetworkName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
+        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]"
       ],
       "properties": {
         "addressSpace": {
@@ -75,7 +87,7 @@
             "properties": {
               "addressPrefix": "[parameters('subnetPrefix')]",
               "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
               }
             }
           }

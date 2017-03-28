@@ -15,7 +15,8 @@ define azure::arm::addsubnet (
   azure_resource_template { $name:
     ensure                   => $ensure,
     resource_group           => $resource_group,
-    content                  => file("${module_name}/arm/addsubnet.json"),
+#    content                  => file("${module_name}/arm/addsubnet.json"),
+    source                   => 'https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-subnet-add-vnet-existing/azuredeploy.json',
     params                   => {
       existingVNETName       => $existing_vnet_name,
       newSubnetName          => $name,

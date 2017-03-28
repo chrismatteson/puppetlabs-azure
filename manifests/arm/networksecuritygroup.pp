@@ -6,7 +6,8 @@ define azure::arm::networksecuritygroup (
   $resource_group,
   $address_prefix,
   $subnet_prefix,
-  $rules = null,
+  $rules = [],
+  $virtual_network_name = $name,
 ) {
 
   if $ensure == absent {
@@ -18,9 +19,11 @@ define azure::arm::networksecuritygroup (
     resource_group  => $resource_group,
     content         => file("${module_name}/arm/networksecuritygroup.json"),
     params          => {
-#      rulesArray    => $rules,
-      addressPrefix => $address_prefix,
-      subnetPrefix  => $subnet_prefix,
+      networkSecurityGroupName => $name,
+      rulesArray               => $rules,
+      addressPrefix            => $address_prefix,
+      subnetPrefix             => $subnet_prefix,
+      virtualNetworkName       => $virtual_network_name,
     },
   }
 }
