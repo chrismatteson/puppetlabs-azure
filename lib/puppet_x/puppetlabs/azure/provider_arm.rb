@@ -384,7 +384,7 @@ module PuppetX
           })
           build(::Azure::ARM::Resources::Models::DeploymentProperties, {
             template: args[:content],
-            template_link: templateLink,
+#            template_link: templateLink,
             parameters: args[:params],
             mode: 'Incremental', #design decision
           })
