@@ -1,0 +1,40 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "webSiteName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the website to add the key/value to"
+      }
+    },
+    "key": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the key to create"
+      }
+    },
+    "value": {
+      "type": "string",
+      "metadata": {
+        "description": "Value for the key to create"
+      }
+    }
+  },
+  "variables": {
+    "apiVersion": "2015-08-01"
+  },
+  "resources": [
+    {
+      "name": "[concat(parameters('webSiteName'), '/appsettings')]",
+      "type": "Microsoft.Web/sites/config",
+      "apiVersion": "[variables('apiVersion')]",
+      "tags": {
+          "displayName": "WebAppSettings"
+      },
+      "properties": {
+        "[parameters('key')]": "[parameters('value')]"
+      }
+    }
+  ]
+}
